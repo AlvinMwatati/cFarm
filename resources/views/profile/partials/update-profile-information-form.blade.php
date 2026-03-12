@@ -59,7 +59,7 @@
 
         <div>
             <x-input-label for="county" :value="__('County')" />
-            <x-select-input id="county" name="county" class="mt-1 block w-full" required>
+            <x-select-input  id="county_search" class="searchable-select" name="county" required>
                 <option value="" disabled {{ old('county', $user->county) ? '' : 'selected' }}>
                     {{ __('Select your county') }}</option>
                 @foreach (\App\Enums\KenyaCounty::values() as $county)
