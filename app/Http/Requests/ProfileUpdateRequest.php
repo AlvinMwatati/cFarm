@@ -6,6 +6,9 @@ use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Enums\KenyaCounty;
+use Illuminate\Validation\Rules\Enum;
+
 
 class ProfileUpdateRequest extends FormRequest
 {
@@ -26,6 +29,10 @@ class ProfileUpdateRequest extends FormRequest
                 'max:255',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
+
+            'phone' => ['required', 'string', 'max:20'],
+            'county' => ['required', 'string', new Enum(KenyaCounty::class)]
+
         ];
     }
 }
