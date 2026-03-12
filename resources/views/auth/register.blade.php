@@ -16,6 +16,25 @@
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
+        <!-- Phone -->
+        <div class="mt-4">
+            <x-input-label for="phone" :value="__('Phone')" />
+            <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')" required autocomplete="tel" />
+            <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+        </div>
+
+        <!-- County -->
+        <div class="mt-4">
+            <x-input-label for="county" :value="__('County')" />
+            <x-select-input id="county" class="block mt-1 w-full" name="county" required>
+                <option value="" disabled selected>{{ __('Select your county') }}</option>
+                @foreach(\App\Enums\KenyaCounty::values() as $county)
+                    <option value="{{ $county }}" {{ old('county') === $county ? 'selected' : '' }}>{{ $county }}</option>
+                @endforeach
+            </x-select-input>
+            <x-input-error :messages="$errors->get('county')" class="mt-2" />
+        </div>
+
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
