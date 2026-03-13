@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Commodities\CommodityController;
+use App\Http\Controllers\Listings\ListingController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,6 +21,16 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('commodities', CommodityController::class)
         ->only(['index', 'show', 'create', 'store']);
+
+    Route::resource('listings', ListingController::class)
+         ->only(['index', 'show', 'create', 'store']);
+
+    Route::get('my-listings', [ListingController::class, 'myListings'])
+         ->name('listings.mine');
+
+    Route::patch('listings/{listing}/toggle-status', [ListingController::class, 'toggleStatus'])
+         ->name('listings.toggle-status');
 });
+
 
 require __DIR__.'/auth.php';

@@ -24,7 +24,7 @@ enum KenyaCounty: string
     case NYANDARUA = 'Nyandarua';
     case NYERI = 'Nyeri';
     case KIRINYAGA = 'Kirinyaga';
-    case MURANGA = 'Murang\'a';
+    case MURANGA = 'Muranga';
     case KIAMBU = 'Kiambu';
     case TURKANA = 'Turkana';
     case WEST_POKOT = 'West Pokot';
@@ -56,7 +56,7 @@ enum KenyaCounty: string
     {
         $values = array_column(self::cases(), 'value');
         sort($values); // Sorts A-Z
-        
+
         return $values;
     }
 }
