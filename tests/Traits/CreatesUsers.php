@@ -9,6 +9,7 @@ trait CreatesUsers
 {
     protected function createUser(): User
     {
+        /** @var User $user */
         $this->ensureRolesExist();
         $user = User::factory()->create();
         $user->assignRole('user');
@@ -17,6 +18,7 @@ trait CreatesUsers
 
     protected function createAdmin(): User
     {
+        /** @var User $admin */
         $this->ensureRolesExist();
         $admin = User::factory()->create();
         $admin->assignRole('admin');
