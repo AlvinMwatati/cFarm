@@ -20,12 +20,116 @@
                 </div>
             @endif
 
+            {{-- Filters --}}
+            <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-6 mb-6">
+                <form method="GET" action="{{ route('listings.index') }}">
+
+                    {{-- Search --}}
+                    <div class="mb-4">
+                        <x-input-label for="search" :value="__('Search')" />
+                        <x-text-input id="search" name="search" type="text" class="block mt-1 w-full"
+                            placeholder="Search listings..." :value="request('search')" />
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+
+                        {{-- Category --}}
+                        <div>
+                            <x-input-label for="category" :value="__('Category')" />
+                            <x-select-input id="category" name="category" class="block mt-1 w-full">
+                                <option value="">All Categories</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->value }}"
+                                        {{ request('category') === $category->value ? 'selected' : '' }}>
+                                        {{ $category->label() }}
+                                    </option>
+                                @endforeach
+                            </x-select-input>
+                        </div>
+
+                        {{-- Commodity --}}
+                        <div>
+                            <x-input-label for="commodity_id" :value="__('Commodity')" />
+                            <x-select-input id="commodity_id" name="commodity_id" class="block mt-1 w-full">
+                                <option value="">All Commodities</option>
+                                @foreach ($commodities as $commodity)
+                                    <option value="{{ $commodity->id }}"
+                                        {{ request('commodity_id') == $commodity->id ? 'selected' : '' }}>
+                                        {{ $commodity->name }}
+                                    </option>
+                                @endforeach
+                            </x-select-input>
+                        </div>
+
+                        {{-- County --}}
+                        <div>
+                            <x-input-label for="county" :value="__('County')" />
+                            <x-select-input id="county" name="county" class="block mt-1 w-full">
+                                <option value="">All Counties</option>
+                                @foreach ($counties as $county)
+                                    <option value="{{ $county->value }}"
+                                        {{ request('county') === $county->value ? 'selected' : '' }}>
+                                        {{ $county->value }}
+                                    </option>
+                                @endforeach
+                            </x-select-input>
+                        </div>
+
+                        {{-- Sort --}}
+                        <div>
+                            <x-input-label for="sort" :value="__('Sort By')" />
+                            <x-select-input id="sort" name="sort" class="block mt-1 w-full">
+                                <option value="newest"     {{ request('sort', 'newest') === 'newest'     ? 'selected' : '' }}>Newest First</option>
+                                <option value="price_asc"  {{ request('sort') === 'price_asc'            ? 'selected' : '' }}>Price: Low to High</option>
+                                <option value="price_desc" {{ request('sort') === 'price_desc'           ? 'selected' : '' }}>Price: High to Low</option>
+                            </x-select-input>
+                        </div>
+
+                    </div>
+
+                    {{-- Price Range --}}
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <x-input-label for="min_price" :value="__('Min Price (KES)')" />
+                            <x-text-input id="min_price" name="min_price" type="number" class="block mt-1 w-full"
+                                placeholder="0" :value="request('min_price')" min="0" step="0.01" />
+                        </div>
+                        <div>
+                            <x-input-label for="max_price" :value="__('Max Price (KES)')" />
+                            <x-text-input id="max_price" name="max_price" type="number" class="block mt-1 w-full"
+                                placeholder="Any" :value="request('max_price')" min="0" step="0.01" />
+                        </div>
+                    </div>
+
+                    {{-- Actions --}}
+                    <div class="flex items-center gap-3">
+                        <x-primary-button>
+                            {{ __('Apply Filters') }}
+                        </x-primary-button>
+
+                        @if (request()->hasAny(['search', 'commodity_id', 'category', 'county', 'min_price', 'max_price', 'sort']))
+                            <a href="{{ route('listings.index') }}"
+                                class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100">
+                                Clear Filters
+                            </a>
+                        @endif
+                    </div>
+
+                </form>
+            </div>
+
+            {{-- Results count --}}
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                {{ $listings->total() }} {{ Str::plural('listing', $listings->total()) }} found
+            </p>
+
             {{-- Listings Grid --}}
             @if ($listings->isEmpty())
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-12 text-center">
-                    <p class="text-gray-500 dark:text-gray-400 text-lg">No listings yet.</p>
-                    <a href="{{ route('listings.create') }}" class="mt-4 inline-block underline text-indigo-600 dark:text-indigo-400">
-                        Be the first to post one
+                    <p class="text-gray-500 dark:text-gray-400 text-lg">No listings match your filters.</p>
+                    <a href="{{ route('listings.index') }}"
+                        class="mt-4 inline-block underline text-indigo-600 dark:text-indigo-400">
+                        Clear filters
                     </a>
                 </div>
             @else
@@ -73,6 +177,7 @@
                     {{ $listings->links() }}
                 </div>
             @endif
+
         </div>
     </div>
 </x-app-layout>

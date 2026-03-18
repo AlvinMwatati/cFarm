@@ -10,21 +10,28 @@ use App\Models\Commodity;
 use App\Enums\KenyaCounty;
 use App\Actions\Listings\CreateListingAction;
 use App\DTOs\Listings\ListingData;
+use App\Enums\CommodityCategory;
+use App\Actions\Listings\FilterListingsAction;
 
 class ListingController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $listings = Listing::active()
-            ->with(['user', 'commodity', 'media'])
-            ->latest()
-            ->paginate(12);
+    public function index(Request $request, FilterListingsAction $filter): \Illuminate\View\View
+{
+    $listings    = $filter->execute($request);
+    $commodities = Commodity::active()->orderBy('name')->get();
+    $categories  = CommodityCategory::cases();
+    $counties    = KenyaCounty::cases();
 
-        return view('listings.index', compact('listings'));
-    }
+    return view('listings.index', compact(
+        'listings',
+        'commodities',
+        'categories',
+        'counties',
+    ));
+}
 
     /**
      * Show the form for creating a new resource.
