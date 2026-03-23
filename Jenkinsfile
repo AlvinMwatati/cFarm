@@ -1,15 +1,16 @@
 pipeline {
-    agent any
-
-    environment {
-        PHP_VERSION = '8.3'
+    agent {
+        docker {
+            image 'cfarm-php:8.3'
+            args '-u root'
+        }
     }
 
     stages {
 
         stage('Checkout') {
             steps {
-                echo 'Pulling latest code from GitHub...'
+                echo 'Pulling latest code...'
                 checkout scm
             }
         }
@@ -23,9 +24,11 @@ pipeline {
 
         stage('Prepare Environment') {
             steps {
-                echo 'Setting up .env for testing...'
-                sh 'cp .env.example .env.testing'
-                sh 'php artisan key:generate --env=testing'
+                echo 'Setting up test environment...'
+                sh '''
+                    cp .env.testing.example .env.testing
+                    php artisan key:generate --env=testing
+                '''
             }
         }
 
