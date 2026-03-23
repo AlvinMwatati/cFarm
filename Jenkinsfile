@@ -6,6 +6,11 @@ pipeline {
         }
     }
 
+    tools {
+        // This ensures 'npm' is added to the PATH for this build
+        nodejs "NodeJS-20"
+    }
+
     stages {
 
         stage('Checkout') {
