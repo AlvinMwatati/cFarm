@@ -93,6 +93,19 @@ services:
             - '${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025'
         networks:
             - sail
+
+    jenkins:
+        image: jenkins/jenkins:lts
+        container_name: cfarm_jenkins
+        ports:
+            - "8080:8080"
+            - "50000:50000"
+        volumes:
+        - jenkins_home:/var/jenkins_home
+        - /var/run/docker.sock:/var/run/docker.sock
+        networks:
+        - sail
+        restart: unless-stopped
     selenium:
         image: selenium/standalone-chromium
         extra_hosts:
@@ -110,4 +123,6 @@ volumes:
     sail-redis:
         driver: local
     sail-meilisearch:
+        driver: local
+    jenkins_home:
         driver: local
