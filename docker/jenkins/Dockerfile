@@ -21,9 +21,9 @@ RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer \
     && chmod +x /usr/local/bin/composer
 
-# Example for Debian/Ubuntu-based PHP images
-RUN curl -fsSL https://deb.nodesource.com | bash - \
+# Install Node.js 22 (includes npm)
+# The URL must specify the version (e.g., setup_22.x)
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
     && apt-get install -y nodejs
-
 
 WORKDIR /var/www/html
