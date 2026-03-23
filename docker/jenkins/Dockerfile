@@ -21,4 +21,9 @@ RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer \
     && chmod +x /usr/local/bin/composer
 
+# Example for Debian/Ubuntu-based PHP images
+RUN curl -fsSL https://deb.nodesource.com | bash - \
+    && apt-get install -y nodejs
+
+
 WORKDIR /var/www/html
