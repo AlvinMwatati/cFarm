@@ -22,13 +22,19 @@ class MarketplaceTest extends TestCase
     {
         $user = $this->createUser();
 
-        $active   = Listing::factory()->create(['status' => ListingStatus::ACTIVE->value]);
-        $inactive = Listing::factory()->create(['status' => ListingStatus::INACTIVE->value]);
+       $active   = Listing::factory()->create([
+        'title'  => 'Active Listing',
+        'status' => ListingStatus::ACTIVE->value,
+    ]);
+    $inactive = Listing::factory()->create([
+        'title'  => 'Inactive Listing',
+        'status' => ListingStatus::INACTIVE->value,
+    ]);
 
         $this->actingAs($user)
              ->get(route('listings.index'))
-             ->assertSee($active->title)
-             ->assertDontSee($inactive->title);
+             ->assertSee('Active Listing')
+             ->assertDontSee('Inactive Listing');
     }
 
     // ─── Search ───────────────────────────────────────────────────────────────

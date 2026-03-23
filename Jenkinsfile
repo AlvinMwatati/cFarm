@@ -16,10 +16,24 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Install PHP Dependencies') {
             steps {
                 echo 'Installing Composer dependencies...'
                 sh 'composer install --no-interaction --prefer-dist --optimize-autoloader'
+            }
+        }
+
+        stage('Install Node Dependencies') {
+            steps {
+                echo 'Installing npm dependencies...'
+                sh 'npm ci'
+            }
+        }
+
+        stage('Build Assets') {
+            steps {
+                echo 'Building frontend assets...'
+                sh 'npm run build'
             }
         }
 
