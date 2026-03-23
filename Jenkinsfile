@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'cfarm-php:8.3'
+            image 'cfarm-php:8.4'
             args '-u root'
         }
     }
@@ -12,6 +12,7 @@ pipeline {
             steps {
                 echo 'Pulling latest code...'
                 checkout scm
+                sh 'git config --global --add safe.directory /var/jenkins_home/workspace/cFarm'
             }
         }
 
