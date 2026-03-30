@@ -16,7 +16,11 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                deleteDir()
+                script {
+                    // Clean the workspace to ensure a fresh start
+                    echo 'Cleaning workspace...'
+                    sh 'rm -rf /var/jenkins_home/workspace/cFarm/*'
+                }
                 echo 'Pulling latest code...'
                 checkout scm
                 sh 'git config --global --add safe.directory /var/jenkins_home/workspace/cFarm'
