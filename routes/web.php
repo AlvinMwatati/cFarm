@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Insights\InsightsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Commodities\CommodityController;
 use App\Http\Controllers\Listings\ListingController;
@@ -30,6 +31,12 @@ Route::middleware('auth')->group(function () {
 
     Route::patch('listings/{listing}/toggle-status', [ListingController::class, 'toggleStatus'])
          ->name('listings.toggle-status');
+
+    Route::get('insights', [InsightsController::class, 'index'])
+         ->name('insights.index');
+
+    Route::get('insights/{commodity}', [InsightsController::class, 'show'])
+         ->name('insights.show');
 });
 
 
