@@ -51,9 +51,9 @@ class User extends Authenticatable
         ];
     }
 
+    // User can have many listings
     public function listings(): HasMany
-{
-    return $this->hasMany(Listing::class);
-}
-
+    {
+        return $this->hasMany(Listing::class);
+    }
 }
