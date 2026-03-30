@@ -11,6 +11,7 @@ pipeline {
         nodejs "NodeJS-20"
     }
 
+    // Environment variables can be defined here if needed
     stages {
 
         stage('Checkout') {
