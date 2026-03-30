@@ -6,12 +6,16 @@ pipeline {
         }
     }
 
+    options {
+        cleanWs()  // ← cleans workspace before every build
+    }
+
     stages {
 
         stage('Checkout') {
             steps {
                 echo 'Pulling latest code...'
-                sh 'git config --global --add safe.directory /var/jenkins_home/workspace/cFarm'
+                sh 'git config --global --add safe.directory ${WORKSPACE}'
                 checkout scm
             }
         }
@@ -73,7 +77,6 @@ pipeline {
             echo '❌ Tests failed. Check the logs above.'
         }
         always {
-            cleanWs()
             echo 'Pipeline finished.'
         }
     }
