@@ -6,35 +6,23 @@ pipeline {
         }
     }
 
-    tools {
-        // This ensures 'npm' is added to the PATH for this build
-        nodejs "NodeJS-20"
-    }
-
-    // Environment variables can be defined here if needed
     stages {
 
         stage('Checkout') {
             steps {
-                script {
-                    // Clean the workspace to ensure a fresh start
-                    echo 'Cleaning workspace...'
-                    sh 'rm -rf /var/jenkins_home/workspace/cFarm/*'
-                }
                 echo 'Pulling latest code...'
                 checkout scm
                 sh 'git config --global --add safe.directory /var/jenkins_home/workspace/cFarm'
             }
         }
 
-        // This stage is optional but can help verify the workspace contents
-        stage('Validate') {
+        stage('Validate workspace') {
             steps {
-                script {
-                    sh 'ls -la'
-                }
+                echo 'Validating workspace...'
+                sh 'ls -la'
             }
         }
+
         stage('Install PHP Dependencies') {
             steps {
                 echo 'Installing Composer dependencies...'
@@ -83,6 +71,7 @@ pipeline {
             echo '❌ Tests failed. Check the logs above.'
         }
         always {
+            cleanWs()
             echo 'Pipeline finished.'
         }
     }
