@@ -57,6 +57,7 @@ class KamisScraperTest extends TestCase
     #[Test]
     public function scraper_avoids_duplicate_entries(): void
     {
+        // First run to populate the database
         $discoveryHtml  = '<html><select name="product"><option value="273">Dry Maize</option></select></html>';
         $excelResponse  = $this->fakeExcelResponse();
 
