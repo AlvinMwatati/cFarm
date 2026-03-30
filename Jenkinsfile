@@ -11,8 +11,8 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo 'Pulling latest code...'
-                checkout scm
                 sh 'git config --global --add safe.directory /var/jenkins_home/workspace/cFarm'
+                checkout scm
             }
         }
 
@@ -20,6 +20,8 @@ pipeline {
             steps {
                 echo 'Validating workspace...'
                 sh 'ls -la'
+                sh 'whoami'                    // Should show root
+                sh 'git config --get safe.directory'  // Verify config
             }
         }
 
