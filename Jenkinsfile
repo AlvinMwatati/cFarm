@@ -22,6 +22,13 @@ pipeline {
             }
         }
 
+        stage('Validate') {
+            steps {
+                script {
+                    sh 'ls -la'
+                }
+            }
+        }
         stage('Install PHP Dependencies') {
             steps {
                 echo 'Installing Composer dependencies...'
