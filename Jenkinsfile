@@ -23,6 +23,7 @@ pipeline {
             }
         }
 
+        // This stage is optional but can help verify the workspace contents
         stage('Validate') {
             steps {
                 script {
