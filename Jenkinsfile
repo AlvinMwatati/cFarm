@@ -6,10 +6,6 @@ pipeline {
         }
     }
 
-    options {
-        cleanWs()  // ← cleans workspace before every build
-    }
-
     stages {
 
         stage('Checkout') {
@@ -77,6 +73,7 @@ pipeline {
             echo '❌ Tests failed. Check the logs above.'
         }
         always {
+             cleanWs()  // ← cleans workspace after every build
             echo 'Pipeline finished.'
         }
     }
