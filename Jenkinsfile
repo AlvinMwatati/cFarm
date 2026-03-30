@@ -13,13 +13,13 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                echo 'Pulling latest code...'
-                checkout scm
-                sh 'git config --global --add safe.directory /var/jenkins_home/workspace/cFarm'
-            }
-        }
+        // stage('Checkout') {
+        //     steps {
+        //         echo 'Pulling latest code...'
+        //         checkout scm
+        //         sh 'git config --global --add safe.directory /var/jenkins_home/workspace/cFarm'
+        //     }
+        // }
 
         stage('Install PHP Dependencies') {
             steps {
