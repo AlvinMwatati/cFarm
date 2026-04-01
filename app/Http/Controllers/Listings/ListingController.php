@@ -12,6 +12,7 @@ use App\Actions\Listings\CreateListingAction;
 use App\DTOs\Listings\ListingData;
 use App\Enums\CommodityCategory;
 use App\Actions\Listings\FilterListingsAction;
+use App\Services\Notifications\NewListingNotificationService;
 
 class ListingController extends Controller
 {
@@ -47,14 +48,15 @@ class ListingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreListingRequest $request, CreateListingAction $action)
+    public function store(StoreListingRequest $request, CreateListingAction $action, NewListingNotificationService $notificationService)
     {
         $data = ListingData::from($request->safe()->except('images'));
 
         $action->execute(
             data:   $data,
             user:   $request->user(),
-            images: $request->file('images', [])
+            images: $request->file('images', []),
+            notificationService: $notificationService
         );
 
         return redirect()->route('listings.index')

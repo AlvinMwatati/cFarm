@@ -45,6 +45,30 @@
                     </a>
                 </div>
 
+                @auth
+                    <div class="mt-4">
+                        @if (auth()->user()->isFollowingCommodity($commodity))
+                            <form method="POST" action="{{ route('commodities.unfollow', $commodity) }}">
+                                @csrf @method('DELETE')
+                                <button type="submit"
+                                    class="inline-flex items-center px-4 py-2 bg-gray-200 dark:bg-gray-700
+                           text-gray-700 dark:text-gray-300 text-sm font-semibold rounded-lg">
+                                    🔔 Following — Click to Unfollow
+                                </button>
+                            </form>
+                        @else
+                            <form method="POST" action="{{ route('commodities.follow', $commodity) }}">
+                                @csrf
+                                <button type="submit"
+                                    class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700
+                           text-white text-sm font-semibold rounded-lg transition">
+                                    🔔 Follow for Price Alerts
+                                </button>
+                            </form>
+                        @endif
+                    </div>
+                @endauth
+
             </div>
         </div>
     </div>

@@ -13,6 +13,10 @@ return [
     | a conventional file to locate the various service credentials.
     |
     */
+    'africastalking' => [
+    'username' => env('AT_USERNAME', 'sandbox'),
+    'api_key'  => env('AT_API_KEY', ''),
+],
 
     'postmark' => [
         'key' => env('POSTMARK_API_KEY'),
