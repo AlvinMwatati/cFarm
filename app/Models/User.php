@@ -8,12 +8,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Spatie\Permission\Traits\HasRoles;
 
 
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, \Spatie\Permission\Traits\HasRoles;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -55,5 +57,34 @@ class User extends Authenticatable
     public function listings(): HasMany
     {
         return $this->hasMany(Listing::class);
+    }
+
+    // User can follow many commodities
+    public function commodityFollows(): HasMany
+    {
+        return $this->hasMany(CommodityFollow::class);
+    }
+
+    // User can follow many commodities through the pivot table
+    public function followedCommodities(): BelongsToMany
+    {
+        return $this->belongsToMany(Commodity::class, 'commodity_follows')
+                    ->withPivot([
+                        'notify_price_drop',
+                        'notify_price_spike',
+                        'notify_new_listing',
+                        'notify_weekly_summary',
+                        'via_app',
+                        'via_email',
+                        'via_sms',
+                        'price_change_threshold',
+                    ])
+                    ->withTimestamps();
+    }
+
+    // Check if user is following a specific commodity
+    public function isFollowingCommodity(Commodity $commodity): bool
+    {
+        return $this->followedCommodities()->where('commodity_id', $commodity->id)->exists();
     }
 }

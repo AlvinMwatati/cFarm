@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\KenyaCounty;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\ListingStatus;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -29,6 +30,7 @@ class Listing extends Model implements HasMedia
     protected $casts = [
         'status'        => ListingStatus::class,
         'price_per_unit' => 'decimal:2',
+        'county'        => KenyaCounty::class,
     ];
 
 

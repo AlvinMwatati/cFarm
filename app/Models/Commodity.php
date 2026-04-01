@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use App\Enums\CommodityCategory;
 use App\Enums\CommodityUnit;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Commodity extends Model
 {
@@ -53,6 +54,12 @@ class Commodity extends Model
     public function scopeByCategory($query, CommodityCategory $category)
     {
         return $query->where('category', $category);
+    }
+
+    // Relationships
+    public function followers(): HasMany
+    {
+        return $this->hasMany(CommodityFollow::class);
     }
 
 

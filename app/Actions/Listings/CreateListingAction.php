@@ -6,10 +6,11 @@ use App\DTOs\Listings\ListingData;
 use App\Models\Listing;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
+use App\Services\Notifications\NewListingNotificationService;
 
 class CreateListingAction
 {
-    public function execute(ListingData $data, User $user, array $images = []): Listing
+    public function execute(ListingData $data, User $user, array $images = [], NewListingNotificationService $notificationService): Listing
     {
         $listing = $user->listings()->create([
             'commodity_id'           => $data->commodity_id,
@@ -27,6 +28,8 @@ class CreateListingAction
             $listing->addMedia($image)
                     ->toMediaCollection('images');
         }
+
+        $notificationService->notify($listing->load('commodity', 'user'));
 
         return $listing;
     }
