@@ -10,6 +10,46 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property int $commodity_id
+ * @property string $title
+ * @property string|null $description
+ * @property numeric $price_per_unit
+ * @property int $quantity_available
+ * @property int $minimum_order_quantity
+ * @property KenyaCounty $county
+ * @property string|null $town
+ * @property ListingStatus $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Commodity $commodity
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, Media> $media
+ * @property-read int|null $media_count
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Listing active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Listing byCommodity(int $commodityId)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Listing byCounty(string $county)
+ * @method static \Database\Factories\ListingFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Listing newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Listing newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Listing query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Listing whereCommodityId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Listing whereCounty($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Listing whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Listing whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Listing whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Listing whereMinimumOrderQuantity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Listing wherePricePerUnit($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Listing whereQuantityAvailable($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Listing whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Listing whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Listing whereTown($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Listing whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Listing whereUserId($value)
+ * @mixin \Eloquent
+ */
 class Listing extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;

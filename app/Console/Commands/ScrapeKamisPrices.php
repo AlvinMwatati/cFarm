@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Services\Scraping\KamisScraperService;
 use Illuminate\Console\Command;
+use App\Models\ScraperLog;
 
 class ScrapeKamisPrices extends Command
 {
@@ -13,9 +14,25 @@ class ScrapeKamisPrices extends Command
     public function handle(KamisScraperService $scraper): int
 {
     $this->info('Starting KAMIS price scrape...');
+    $startTime = now();
+    
     $this->info('Discovering product list from KAMIS...');
 
+    $duration = now()->diffInSeconds($startTime);
+
     $stats = $scraper->scrape();
+
+     // Log the run
+    ScraperLog::create([
+        'source'            => 'kamis',
+        'success'           => $stats['downloaded'],
+        'products_found'    => $stats['products_found'] ?? 0,
+        'products_scraped'  => $stats['products_scraped'] ?? 0,
+        'rows_saved'        => $stats['rows_saved'],
+        'rows_processed'    => $stats['rows_processed'],
+        'errors'            => $stats['errors'],
+        'duration_seconds'  => $duration,
+    ]);
 
     if ($stats['downloaded']) {
         $this->info('✅ Scrape complete');
