@@ -129,34 +129,34 @@ class KamisScraperService
         return $products;
     }
 
-    /**
-     * Hardcoded fallback list of products relevant to cFarm.
-     * Used when HTML parsing fails.
-     */
-    private function fallbackProductIds(): array
-    {
-        return [
-            273 => 'Dry Maize',
-            274 => 'Red Sorghum',
-            275 => 'Wheat',
-            276 => 'Rice',
-            277 => 'Green Grams',
-            278 => 'Ground Nuts',
-            279 => 'Beans Red Haricot (Wairimu)',
-            280 => 'Beans (Yellow-Green)',
-            290 => 'Red Irish potato',
-            291 => 'Cabbages',
-            292 => 'Sweet potatoes',
-            293 => 'Carrots',
-            294 => 'Tomatoes',
-            295 => 'Beans Rosecoco',
-            296 => 'Kales/Sukuma Wiki',
-            297 => 'Dry Onions',
-            298 => 'Avocado',
-            299 => 'Mangoes',
-            300 => 'Cow Milk(At collection point)',
-        ];
-    }
+    // /**
+    //  * Hardcoded fallback list of products relevant to cFarm.
+    //  * Used when HTML parsing fails.
+    //  */
+    // private function fallbackProductIds(): array
+    // {
+    //     return [
+    //         273 => 'Dry Maize',
+    //         274 => 'Red Sorghum',
+    //         275 => 'Wheat',
+    //         276 => 'Rice',
+    //         277 => 'Green Grams',
+    //         278 => 'Ground Nuts',
+    //         279 => 'Beans Red Haricot (Wairimu)',
+    //         280 => 'Beans (Yellow-Green)',
+    //         290 => 'Red Irish potato',
+    //         291 => 'Cabbages',
+    //         292 => 'Sweet potatoes',
+    //         293 => 'Carrots',
+    //         294 => 'Tomatoes',
+    //         295 => 'Beans Rosecoco',
+    //         296 => 'Kales/Sukuma Wiki',
+    //         297 => 'Dry Onions',
+    //         298 => 'Avocado',
+    //         299 => 'Mangoes',
+    //         300 => 'Cow Milk(At collection point)',
+    //     ];
+    // }
 
     // ─── Excel Processing ─────────────────────────────────────────────────────
 
