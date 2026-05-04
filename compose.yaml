@@ -26,7 +26,7 @@ services:
             - redis
             - meilisearch
             - mailpit
-            - selenium
+            # - selenium
     mysql:
         image: 'mysql:8.4'
         ports:
@@ -93,14 +93,54 @@ services:
             - '${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025'
         networks:
             - sail
-    selenium:
-        image: selenium/standalone-chromium
-        extra_hosts:
-            - 'host.docker.internal:host-gateway'
+
+    jenkins:
+        image: jenkins/jenkins:lts
+        user: root
+        privileged: true
+        container_name: cfarm_jenkins
+        ports:
+            - "8080:8080"
+            - "50000:50000"
         volumes:
-            - '/dev/shm:/dev/shm'
+            - jenkins_home:/var/jenkins_home
+            - /var/run/docker.sock:/var/run/docker.sock
+            - /usr/bin/docker:/usr/bin/docker
         networks:
             - sail
+        restart: unless-stopped
+    # selenium:
+    #     image: selenium/standalone-chromium
+    #     extra_hosts:
+    #         - 'host.docker.internal:host-gateway'
+    #     volumes:
+    #         - '/dev/shm:/dev/shm'
+    #     networks:
+    #         - sail
+    queue:
+        build:
+            context: ./vendor/laravel/sail/runtimes/8.5
+            dockerfile: Dockerfile
+            args:
+                WWWGROUP: '${WWWGROUP}'
+        image: 'sail-8.5/app'
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        user: root
+        environment:
+            WWWUSER: '${WWWUSER:-1000}'
+            LARAVEL_SAIL: 1
+            XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
+        volumes:
+            - '.:/var/www/html'
+        networks:
+            - sail
+        depends_on:
+            redis:
+                condition: service_healthy
+        restart: unless-stopped
+        command: php artisan queue:work redis --sleep=3 --tries=1
+
 networks:
     sail:
         driver: bridge
@@ -110,4 +150,6 @@ volumes:
     sail-redis:
         driver: local
     sail-meilisearch:
+        driver: local
+    jenkins_home:
         driver: local

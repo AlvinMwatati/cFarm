@@ -1,25 +1,32 @@
 <x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
+    <h2 class="font-display text-2xl font-bold text-soil mb-4 text-center">Reset Password</h2>
+
+    <div class="mb-6 text-sm text-bark text-center">
         {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
     </div>
 
     <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+    <x-auth-session-status class="mb-4 text-primary font-bold bg-primary-muted p-3 rounded-lg" :status="session('status')" />
 
-    <form method="POST" action="{{ route('password.email') }}">
+    <form method="POST" action="{{ route('password.email') }}" class="space-y-5">
         @csrf
 
         <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <label for="email" class="block text-sm font-bold text-soil mb-2">{{ __('Email') }}</label>
+            <input id="email" class="w-full rounded-lg border-stone shadow-sm focus:border-primary focus:ring focus:ring-primary/20 bg-white" type="email" name="email" value="{{ old('email') }}" required autofocus />
+            <x-input-error :messages="$errors->get('email')" class="mt-2 text-red-600 text-sm" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
+        <div class="pt-2">
+            <button class="btn-primary w-full justify-center text-lg py-3">
                 {{ __('Email Password Reset Link') }}
-            </x-primary-button>
+            </button>
         </div>
+
+        <p class="text-center text-sm text-bark mt-6">
+            Remember your password? 
+            <a href="{{ route('login') }}" class="font-bold text-primary hover:text-primary-dark transition-colors">Log in here</a>
+        </p>
     </form>
 </x-guest-layout>

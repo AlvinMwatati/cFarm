@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
+use App\Enums\KenyaCounty;
+use Illuminate\Validation\Rules\Enum;
 
 class RegisteredUserController extends Controller
 {
@@ -34,13 +36,20 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'phone' => ['required', 'string', 'max:20'],
+            'county' => ['required', 'string', new Enum(KenyaCounty::class)]
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'phone' => $request->phone,
+            'county' => $request->county,
         ]);
+
+        // Admin role is assigned manually or via seeder
+        $user->assignRole('user');
 
         event(new Registered($user));
 
