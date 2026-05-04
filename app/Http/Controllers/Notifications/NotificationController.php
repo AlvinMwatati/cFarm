@@ -13,9 +13,6 @@ class NotificationController extends Controller
             ->notifications()
             ->paginate(20);
 
-        // Mark all as read when user views them
-        $request->user()->unreadNotifications->markAsRead();
-
         return view('notifications.index', compact('notifications'));
     }
 
@@ -29,5 +26,11 @@ class NotificationController extends Controller
     {
         $request->user()->notifications()->delete();
         return back()->with('success', 'All notifications cleared.');
+    }
+
+    public function markAllRead(Request $request)
+    {
+        $request->user()->unreadNotifications->markAsRead();
+        return back()->with('success', 'All notifications marked as read.');
     }
 }

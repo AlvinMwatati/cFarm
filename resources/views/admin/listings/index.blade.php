@@ -1,88 +1,93 @@
 <x-admin-layout header="Listings">
 
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 mb-6">
-        <form method="GET" class="flex gap-3">
-            <x-text-input name="search" placeholder="Search listings..."
-                class="flex-1" :value="request('search')" />
+    <div class="bg-white border border-stone rounded-xl shadow-sm p-6 mb-8">
+        <form method="GET" class="flex flex-col sm:flex-row gap-4">
+            <input type="text" name="search" placeholder="Search listings..."
+                class="flex-1 w-full rounded-lg border-stone shadow-sm focus:border-primary focus:ring focus:ring-primary/20 bg-white" 
+                value="{{ request('search') }}" />
+                
             <select name="status"
-                class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 rounded-md text-sm">
+                class="w-full sm:w-48 rounded-lg border-stone shadow-sm focus:border-primary focus:ring focus:ring-primary/20 bg-white">
                 <option value="">All Statuses</option>
                 <option value="active"   {{ request('status') === 'active'   ? 'selected' : '' }}>Active</option>
                 <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>Inactive</option>
             </select>
-            <x-primary-button>Filter</x-primary-button>
+            
+            <button class="btn-primary shrink-0 justify-center">Filter</button>
         </form>
     </div>
 
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden">
-        <table class="w-full text-sm">
-            <thead class="bg-gray-50 dark:bg-gray-700 text-xs uppercase text-gray-500">
-                <tr>
-                    <th class="px-6 py-3 text-left">Listing</th>
-                    <th class="px-6 py-3 text-left">Seller</th>
-                    <th class="px-6 py-3 text-left">Commodity</th>
-                    <th class="px-6 py-3 text-right">Price</th>
-                    <th class="px-6 py-3 text-center">Status</th>
-                    <th class="px-6 py-3 text-center">Posted</th>
-                    <th class="px-6 py-3"></th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                @foreach ($listings as $listing)
+    <div class="bg-white border border-stone rounded-xl shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+                <thead class="text-xs font-bold text-bark uppercase bg-parchment/50 border-b border-stone">
                     <tr>
-                        <td class="px-6 py-3">
-                            <a href="{{ route('listings.show', $listing) }}"
-                                class="font-medium text-indigo-600 hover:underline">
-                                {{ Str::limit($listing->title, 35) }}
-                            </a>
-                            <p class="text-xs text-gray-400">{{ $listing->county }}</p>
-                        </td>
-                        <td class="px-6 py-3 text-gray-600 dark:text-gray-300">
-                            {{ $listing->user->name }}
-                            @if($listing->user->is_banned)
-                                <span class="text-xs text-red-500 ml-1">(banned)</span>
-                            @endif
-                        </td>
-                        <td class="px-6 py-3 text-gray-600 dark:text-gray-300">
-                            {{ $listing->commodity->name }}
-                        </td>
-                        <td class="px-6 py-3 text-right font-medium text-gray-800 dark:text-gray-100">
-                            KES {{ number_format($listing->price_per_unit, 0) }}
-                        </td>
-                        <td class="px-6 py-3 text-center">
-                            <span class="px-2 py-0.5 rounded-full text-xs font-medium
-                                {{ $listing->status->value === 'active'
-                                    ? 'bg-green-100 text-green-700'
-                                    : 'bg-gray-100 text-gray-500' }}">
-                                {{ $listing->status->label() }}
-                            </span>
-                        </td>
-                        <td class="px-6 py-3 text-center text-xs text-gray-400">
-                            {{ $listing->created_at->format('M d') }}
-                        </td>
-                        <td class="px-6 py-3">
-                            <div class="flex items-center justify-end gap-2">
-                                <form method="POST"
-                                    action="{{ route('admin.listings.toggle', $listing) }}">
-                                    @csrf @method('PATCH')
-                                    <button type="submit" class="text-xs text-indigo-600 hover:underline">
-                                        {{ $listing->status->value === 'active' ? 'Deactivate' : 'Activate' }}
-                                    </button>
-                                </form>
-                                <form method="POST"
-                                    action="{{ route('admin.listings.destroy', $listing) }}"
-                                    onsubmit="return confirm('Delete this listing?')">
-                                    @csrf @method('DELETE')
-                                    <button type="submit" class="text-xs text-red-600 hover:underline">
-                                        Delete
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
+                        <th class="px-8 py-4 rounded-tl-xl">Listing</th>
+                        <th class="px-8 py-4">Seller</th>
+                        <th class="px-8 py-4">Commodity</th>
+                        <th class="px-8 py-4 text-right">Price</th>
+                        <th class="px-8 py-4 text-center">Status</th>
+                        <th class="px-8 py-4 text-center">Posted</th>
+                        <th class="px-8 py-4 rounded-tr-xl"></th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
-        <div class="px-6 py-4">{{ $listings->links() }}</div>
+                </thead>
+                <tbody class="divide-y divide-stone">
+                    @foreach ($listings as $listing)
+                        <tr class="hover:bg-parchment/30 transition-colors">
+                            <td class="px-8 py-4">
+                                <a href="{{ route('listings.show', $listing) }}"
+                                    class="font-bold text-soil hover:text-primary transition-colors">
+                                    {{ Str::limit($listing->title, 35) }}
+                                </a>
+                                <p class="text-xs text-bark mt-0.5">{{ $listing->county }}</p>
+                            </td>
+                            <td class="px-8 py-4 text-bark">
+                                {{ $listing->user->name }}
+                                @if($listing->user->is_banned)
+                                    <span class="text-xs font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded-full ml-1 uppercase tracking-wide">Banned</span>
+                                @endif
+                            </td>
+                            <td class="px-8 py-4 text-bark font-bold flex items-center gap-2">
+                                <span>{{ $listing->commodity->icon }}</span> {{ $listing->commodity->name }}
+                            </td>
+                            <td class="px-8 py-4 text-right font-mono font-bold text-soil">
+                                <span class="text-xs text-bark font-sans font-normal mr-1">KES</span>{{ number_format($listing->price_per_unit, 0) }}
+                            </td>
+                            <td class="px-8 py-4 text-center">
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider
+                                    {{ $listing->status->value === 'active'
+                                        ? 'bg-primary-muted text-primary-dark'
+                                        : 'bg-stone/30 text-bark' }}">
+                                    {{ $listing->status->label() }}
+                                </span>
+                            </td>
+                            <td class="px-8 py-4 text-center text-xs text-bark font-bold">
+                                {{ $listing->created_at->format('M d') }}
+                            </td>
+                            <td class="px-8 py-4">
+                                <div class="flex items-center justify-end gap-4">
+                                    <form method="POST"
+                                        action="{{ route('admin.listings.toggle', $listing) }}">
+                                        @csrf @method('PATCH')
+                                        <button type="submit" class="text-sm font-bold text-primary hover:text-primary-dark transition-colors">
+                                            {{ $listing->status->value === 'active' ? 'Deactivate' : 'Activate' }}
+                                        </button>
+                                    </form>
+                                    <form method="POST"
+                                        action="{{ route('admin.listings.destroy', $listing) }}"
+                                        onsubmit="return confirm('Delete this listing?')">
+                                        @csrf @method('DELETE')
+                                        <button type="submit" class="text-sm font-bold text-red-600 hover:text-red-800 transition-colors">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        <div class="px-8 py-4 border-t border-stone">{{ $listings->links() }}</div>
     </div>
 </x-admin-layout>

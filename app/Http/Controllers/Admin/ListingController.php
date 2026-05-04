@@ -41,7 +41,7 @@ class ListingController extends Controller
 
     public function destroy(Listing $listing)
     {
-        $listing->delete();
+        $listing->delete('id');
         return back()->with('success', 'Listing deleted.');
     }
 }

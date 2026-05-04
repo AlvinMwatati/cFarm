@@ -19,8 +19,8 @@ class CommodityController extends Controller
     public function index()
     {
         $commodities = Commodity::active()
-            ->orderBy('category')
-            ->orderBy('name')
+            ->orderBy('category', 'asc')
+            ->orderBy('name', 'asc')
             ->get()
             ->groupBy(fn($c) => $c->category->label());
 

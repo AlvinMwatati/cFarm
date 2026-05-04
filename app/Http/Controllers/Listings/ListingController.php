@@ -22,7 +22,7 @@ class ListingController extends Controller
     public function index(Request $request, FilterListingsAction $filter): \Illuminate\View\View
 {
     $listings    = $filter->execute($request);
-    $commodities = Commodity::active()->orderBy('name')->get();
+    $commodities = Commodity::active()->orderBy('name', 'desc' )->get();
     $categories  = CommodityCategory::cases();
     $counties    = KenyaCounty::cases();
 
@@ -39,7 +39,7 @@ class ListingController extends Controller
      */
     public function create()
     {
-        $commodities = Commodity::active()->orderBy('name')->get();
+        $commodities = Commodity::active()->orderBy('name', 'desc')->get();
         $counties    = KenyaCounty::cases();
 
         return view('listings.create', compact('commodities', 'counties'));
