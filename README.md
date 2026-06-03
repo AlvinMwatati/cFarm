@@ -5,7 +5,7 @@
 
 [![CI Pipeline](https://img.shields.io/badge/CI-Jenkins-blue?logo=jenkins)](https://github.com/AlvinMwatati/cFarm)
 [![PHP](https://img.shields.io/badge/PHP-8.5-777BB4?logo=php)](https://php.net)
-[![Laravel](https://img.shields.io/badge/Laravel-11-FF2D20?logo=laravel)](https://laravel.com)
+[![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20?logo=laravel)](https://laravel.com)
 [![Docker](https://img.shields.io/badge/Docker-Sail-2496ED?logo=docker)](https://laravel.com/docs/sail)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
